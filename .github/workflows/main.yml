@@ -16,6 +16,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      # 自动生成 gradlew 脚本并赋予执行权限
+      - name: Generate gradlew
+        run: gradle wrapper
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
@@ -24,3 +31,4 @@ jobs:
         with:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+
