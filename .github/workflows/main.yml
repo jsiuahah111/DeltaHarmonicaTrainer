@@ -16,19 +16,23 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 自动生成 gradlew 脚本并赋予执行权限
+      # 安装Android SDK
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      # 生成gradlew脚本
       - name: Generate gradlew
         run: gradle wrapper
 
       - name: Make gradlew executable
         run: chmod +x gradlew
 
+      # 编译，加上详细日志
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
-
